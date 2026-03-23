@@ -56,3 +56,10 @@ variable "key_name" {
   type        = string
     default     = null
 }
+
+variable "enable_ssh" {
+  description = "Enable SSH access to the instance"
+  type = bool
+  default = false
+  
+}
