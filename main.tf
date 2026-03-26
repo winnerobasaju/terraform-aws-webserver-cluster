@@ -114,6 +114,7 @@ resource "aws_launch_template" "web_template" {
 
     user_data = base64encode(templatefile("${path.module}/user_data.sh", {
       server_port = var.server_port
+      cluster_name = var.cluster_name
     }))
 }
 
