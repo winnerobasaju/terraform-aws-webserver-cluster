@@ -112,7 +112,7 @@ resource "aws_launch_template" "web_template" {
     }
 
 
-    user_data = base64encode(templatefile("$path.module/user_data.sh", {
+    user_data = base64encode(templatefile("${path.module}/user_data.sh", {
       server_port = var.server_port
     }))
 }
@@ -164,7 +164,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
 resource "aws_route53_record" "alb_dns" {
   count = var.create_dns_record ? 1 : 0
 
-  zone_id = data.aws_route53_zones.primary.zone_id
+  zone_id = data.aws_route53_zone.primary.zone_id
   name = var.domain_name
   type = "A"
 
