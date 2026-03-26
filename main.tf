@@ -28,9 +28,13 @@ data "aws_vpc" "existing_vpc" {
   }
 }
 
+data "aws_route53_zone" "primary" {
+  name = var.domain_name
+}
+
 resource "aws_vpc" "new" {
   count = var.use_existing_vpc ? 1 :0
-  cidr_block = ["10.0.0.0/16"]  
+  cidr_block = "10.0.0.0/16"
 }
 
 locals {
