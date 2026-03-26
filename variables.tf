@@ -63,3 +63,54 @@ variable "enable_ssh" {
   default = false
   
 }
+
+variable "enable_autoscaling" {
+  description = "Enable autoscaling for the cluster"
+  type = bool
+  default = true
+}
+
+variable "environment" {
+  description = "The environment to deploy the cluster in (e.g. dev, staging, production)"
+  type = string
+  
+  validation {
+    condition = contains(["dev", "staging", "production"], var.environment)
+    error_message = "Invalid environment. Please choose from: dev, staging, production."
+  }
+}
+
+
+locals {
+  is_production = var.environment == "production"
+
+
+  instance_type = local.is_production ? "t3.medium" : "t2.micro"
+  min_size = local.is_production ? 3 : 1
+  max_size = local.is_production ? 10 : 3
+  enable_monitoring = local.is_production
+}
+
+variable "enable_detailed_monitoring" {
+  description = "Enable detailed cloudwatch monitoring for the cluster"
+  type = bool
+  default = false 
+}
+
+variable "create_dns_record" {
+  description = "Whether to create route53 dns record"
+  type = bool
+  default = false
+}
+
+variable "domain_name" {
+  description = "The domain name to use for the route53 record"
+  type = string
+  default = null
+}
+
+variable "use_existing_vpc" {
+  description = "Whether to use an existing VPC"
+  type = bool
+  default = false
+}
