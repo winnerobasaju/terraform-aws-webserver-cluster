@@ -4,8 +4,8 @@ output "alb_dns_name" {
 }
 
 output "asg_name" {
-    value = aws_autoscaling_group.web_asg.name
-    description = "The name of the autoscaling group"
+    value = var.enable_autoscaling ? aws_autoscaling_group.web_asg[0].name : null
+    description = "The name of the autoscaling group only if enabled"
 }
 
 output "security_group_id" {
